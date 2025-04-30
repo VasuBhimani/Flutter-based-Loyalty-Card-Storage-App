@@ -1,8 +1,6 @@
-
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
-
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
@@ -43,30 +41,31 @@ class DefaultFirebaseOptions {
       measurementId: "G-KC2ZKVFV8Y");
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'YOUR-ANDROID-API-KEY',
-    appId: 'YOUR-ANDROID-APP-ID',
-    messagingSenderId: 'YOUR-SENDER-ID',
-    projectId: 'YOUR-PROJECT-ID',
-    storageBucket: 'YOUR-STORAGE-BUCKET',
-  );
+      apiKey: "AIzaSyBGbmmSnlIPe5T9D6Hw7kESG0236OmlPsE",
+      authDomain: "loyalty-card-storage-app-2a98d.firebaseapp.com",
+      projectId: "loyalty-card-storage-app-2a98d",
+      storageBucket: "loyalty-card-storage-app-2a98d.firebasestorage.app",
+      messagingSenderId: "392428631464",
+      appId: "1:392428631464:web:253fc0149ad1ff5762199d",
+      measurementId: "G-KC2ZKVFV8Y");
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'YOUR-IOS-API-KEY',
-    appId: 'YOUR-IOS-APP-ID',
-    messagingSenderId: 'YOUR-SENDER-ID',
-    projectId: 'YOUR-PROJECT-ID',
-    storageBucket: 'YOUR-STORAGE-BUCKET',
-    iosClientId: 'YOUR-IOS-CLIENT-ID',
-    iosBundleId: 'YOUR-IOS-BUNDLE-ID',
+    apiKey: "AIzaSyBGbmmSnlIPe5T9D6Hw7kESG0236OmlPsE",
+    authDomain: "loyalty-card-storage-app-2a98d.firebaseapp.com",
+    projectId: "loyalty-card-storage-app-2a98d",
+    storageBucket: "loyalty-card-storage-app-2a98d.firebasestorage.app",
+    messagingSenderId: "392428631464",
+    appId: "1:392428631464:web:253fc0149ad1ff5762199d",
+    measurementId: "G-KC2ZKVFV8Y",
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'YOUR-MACOS-API-KEY',
-    appId: 'YOUR-MACOS-APP-ID',
-    messagingSenderId: 'YOUR-SENDER-ID',
-    projectId: 'YOUR-PROJECT-ID',
-    storageBucket: 'YOUR-STORAGE-BUCKET',
-    iosClientId: 'YOUR-MACOS-CLIENT-ID',
-    iosBundleId: 'YOUR-MACOS-BUNDLE-ID',
+    apiKey: "AIzaSyBGbmmSnlIPe5T9D6Hw7kESG0236OmlPsE",
+    authDomain: "loyalty-card-storage-app-2a98d.firebaseapp.com",
+    projectId: "loyalty-card-storage-app-2a98d",
+    storageBucket: "loyalty-card-storage-app-2a98d.firebasestorage.app",
+    messagingSenderId: "392428631464",
+    appId: "1:392428631464:web:253fc0149ad1ff5762199d",
+    measurementId: "G-KC2ZKVFV8Y",
   );
 }
