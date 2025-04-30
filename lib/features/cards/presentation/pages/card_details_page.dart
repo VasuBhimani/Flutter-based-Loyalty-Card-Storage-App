@@ -141,6 +141,42 @@ class CardDetailsPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.qr_code),
+                    label: Text('Generate QR Code'),
+                    onPressed: () {
+                      final qrData = card.cardNumber.isNotEmpty
+                          ? card.cardNumber
+                          : card.id;
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Card QR Code'),
+                          content: StatefulBuilder(
+                            builder: (context, setState) => Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                QrImageView(
+                                  data: qrData,
+                                  version: QrVersions.auto,
+                                  size: 150.0,
+                                ),
+                                const SizedBox(height: 16),
+                                Text('Card Number: $qrData'),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Close'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
