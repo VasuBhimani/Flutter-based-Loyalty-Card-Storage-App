@@ -4,6 +4,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import '../../domain/models/card_model.dart';
 import '../bloc/cards_bloc.dart';
+import '../pages/add_card_page.dart';
 
 class CardDetailsPage extends StatelessWidget {
   final String cardId;
@@ -30,7 +31,12 @@ class CardDetailsPage extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () {
-                    // TODO: Implement edit functionality
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddCardPage(cardToEdit: card),
+                      ),
+                    );
                   },
                 ),
               ],

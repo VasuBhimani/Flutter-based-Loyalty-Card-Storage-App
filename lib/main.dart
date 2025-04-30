@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 import 'app/app.dart';
 import 'app/routes/app_router.dart';
@@ -123,5 +124,16 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<encrypt.Key> getOrCreateKey(FlutterSecureStorage secureStorage) async {
+  final keyString = await secureStorage.read(key: 'encryption_key');
+  if (keyString != null) {
+    return encrypt.Key.fromBase64(keyString);
+  } else {
+    final key = encrypt.Key.fromSecureRandom(32);
+    await secureStorage.write(key: 'encryption_key', value: key.base64);
+    return key;
   }
 }

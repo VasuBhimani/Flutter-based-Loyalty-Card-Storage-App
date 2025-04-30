@@ -7,7 +7,8 @@ import '../../domain/models/card_model.dart';
 import '../bloc/cards_bloc.dart';
 
 class AddCardPage extends StatefulWidget {
-  const AddCardPage({Key? key}) : super(key: key);
+  final CardModel? cardToEdit;
+  const AddCardPage({Key? key, this.cardToEdit}) : super(key: key);
 
   @override
   State<AddCardPage> createState() => _AddCardPageState();
@@ -15,14 +16,27 @@ class AddCardPage extends StatefulWidget {
 
 class _AddCardPageState extends State<AddCardPage> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _cardNumberController = TextEditingController();
-  final _issuerController = TextEditingController();
+  late TextEditingController _nameController;
+  late TextEditingController _cardNumberController;
+  late TextEditingController _issuerController;
   DateTime? _expirationDate;
   String? _barcode;
   String? _qrCode;
   String? _logoUrl;
   bool _isScanning = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final card = widget.cardToEdit;
+    _nameController = TextEditingController(text: card?.name ?? '');
+    _cardNumberController = TextEditingController(text: card?.cardNumber ?? '');
+    _issuerController = TextEditingController(text: card?.issuer ?? '');
+    _expirationDate = card?.expirationDate;
+    _barcode = card?.barcode;
+    _qrCode = card?.qrCode;
+    _logoUrl = card?.logoUrl;
+  }
 
   @override
   void dispose() {
@@ -45,6 +59,7 @@ class _AddCardPageState extends State<AddCardPage> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       final card = CardModel(
+        id: widget.cardToEdit?.id,
         name: _nameController.text,
         cardNumber: _cardNumberController.text,
         issuer: _issuerController.text,
@@ -53,8 +68,11 @@ class _AddCardPageState extends State<AddCardPage> {
         qrCode: _qrCode,
         logoUrl: _logoUrl,
       );
-
-      context.read<CardsBloc>().add(AddCard(card));
+      if (widget.cardToEdit != null) {
+        context.read<CardsBloc>().add(UpdateCard(card));
+      } else {
+        context.read<CardsBloc>().add(AddCard(card));
+      }
       Navigator.pop(context);
     }
   }
