@@ -7,24 +7,31 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_based_lloyalty_card_storage_app/main.dart';
+import 'package:flutter_based_lloyalty_card_storage_app/core/services/local_storage_service.dart';
+import 'package:flutter_based_lloyalty_card_storage_app/core/services/notification_service.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App smoke test', (WidgetTester tester) async {
+    // Setup services
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final secureStorage = const FlutterSecureStorage();
+    final localStorageService = LocalStorageService(
+      sharedPreferences: sharedPreferences,
+      secureStorage: secureStorage,
+    );
+    final notificationService = NotificationService();
+    await notificationService.initialize();
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp(
+      localStorageService: localStorageService,
+      notificationService: notificationService,
+    ));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the app starts
+    expect(find.byType(Scaffold), findsOneWidget);
   });
 }
