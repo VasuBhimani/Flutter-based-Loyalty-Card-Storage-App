@@ -115,6 +115,14 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(_isSignUp ? 'Sign Up' : 'Sign In'),
                   ),
                   const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.login),
+                    label: Text('Sign in with Google'),
+                    onPressed: () {
+                      context.read<AuthBloc>().add(SignInWithGoogle());
+                    },
+                  ),
+                  const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
                       setState(() {

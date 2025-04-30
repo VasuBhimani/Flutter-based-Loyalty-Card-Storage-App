@@ -74,6 +74,9 @@ dependencies:
   image_picker: ^1.0.7
   permission_handler: ^11.3.0
 
+  # Google Authentication
+  google_sign_in: ^6.1.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

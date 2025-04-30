@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../../core/services/local_storage_service.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 // Events
 abstract class AuthEvent extends Equatable {
@@ -40,6 +41,8 @@ class SignUpWithEmail extends AuthEvent {
 }
 
 class SignOut extends AuthEvent {}
+
+class SignInWithGoogle extends AuthEvent {}
 
 // States
 abstract class AuthState extends Equatable {
@@ -85,6 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInWithEmail>(_onSignInWithEmail);
     on<SignUpWithEmail>(_onSignUpWithEmail);
     on<SignOut>(_onSignOut);
+    on<SignInWithGoogle>(_onSignInWithGoogle);
   }
 
   Future<void> _onCheckAuthStatus(
@@ -141,6 +145,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading());
       await _auth.signOut();
       emit(AuthUnauthenticated());
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
+  }
+
+  Future<void> _onSignInWithGoogle(
+    SignInWithGoogle event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      emit(AuthLoading());
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        emit(const AuthError('Google sign-in aborted'));
+        return;
+      }
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final userCredential = await _auth.signInWithCredential(credential);
+      emit(AuthAuthenticated(userCredential.user!));
     } catch (e) {
       emit(AuthError(e.toString()));
     }
